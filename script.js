@@ -6,30 +6,60 @@ const longoBt = document.querySelector(".app__card-button--longo");
 const banner = document.querySelector(".app__image");
 const titulo = document.querySelector(".app__title");
 const botoes = document.querySelectorAll(".app__card-button");
+const musicaFocoInput = document.querySelector("#alternar-musica");
+const musica = new Audio("sons/luna-rise-part-one.mp3"); // arquivo de musica
 
+let tempoDecorridoEmSegundos = 5;
+
+musica.loop = true; // musica se repete o tempo inteiro
+
+// "change" => evento do checkbox
+musicaFocoInput.addEventListener("change", () => {
+  // paused => verifica se a musica esta parada
+  if (musica.paused) {
+    musica.play(); // Inicia a musica
+  } else {
+    musica.pause(); // Para a musica
+  }
+});
+
+// coloca uma acao de click no botao
 focoBt.addEventListener("click", () => {
   alterarContexto("foco");
-  focoBt.classList.add("active")
+
+  // adiciona a classe "active" no botao
+  focoBt.classList.add("active");
 });
 
+// coloca uma acao de click no botao
 curtoBt.addEventListener("click", () => {
   alterarContexto("descanso-curto");
-  curtoBt.classList.add("active")
+
+  // adiciona a classe "active" no botao
+  curtoBt.classList.add("active");
 });
 
+// coloca uma acao de click no botao
 longoBt.addEventListener("click", () => {
   alterarContexto("descanso-longo");
-  longoBt.classList.add("active")
+
+  // adiciona a classe "active" no botao
+  longoBt.classList.add("active");
 });
 
 function alterarContexto(contexto) {
+  // remove a classe "active" no botao
   botoes.forEach(function(contexto) {
     contexto.classList.remove("active");
   });
 
+  // muda a cor de acordo com o dado no atributo "data-contexto" que foi colocado na tag html
   html.setAttribute("data-contexto", contexto);
+
+  // muda a imagem
   banner.setAttribute("src", `imagens/${contexto}.png`);
 
+  // muda o titulo
   switch (contexto) {
     case "foco":
       titulo.innerHTML = `
@@ -54,3 +84,8 @@ function alterarContexto(contexto) {
       break;
   }
 }
+
+const contagemRegressiva = () => {
+  tempoDecorridoEmSegundos -= 1;
+  console.log("Temporizador: " + tempoDecorridoEmSegundos);
+};

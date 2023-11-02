@@ -8,8 +8,14 @@ const titulo = document.querySelector(".app__title");
 const botoes = document.querySelectorAll(".app__card-button");
 const musicaFocoInput = document.querySelector("#alternar-musica");
 const musica = new Audio("sons/luna-rise-part-one.mp3"); // arquivo de musica
+const startPauseBt = document.querySelector("#start-pause");
+const audioPlay = new Audio("sons/play.mp3"); // arquivo de som do start
+const audioPausa = new Audio("sons/pause.mp3"); // arquivo de som do start
+const audioTempoFinalizado = new Audio("sons/beep.mp3"); // arquivo de som do start
+
 
 let tempoDecorridoEmSegundos = 5;
+let intervaloId = null;
 
 musica.loop = true; // musica se repete o tempo inteiro
 
@@ -85,7 +91,38 @@ function alterarContexto(contexto) {
   }
 }
 
+// somPlay
+// somPause
+// somTimerZerado
+
 const contagemRegressiva = () => {
+  // iniciar();
+  if (tempoDecorridoEmSegundos <= 0) {
+    zerar();
+    alert("Tempo finalizado!");
+    audioTempoFinalizado.play();
+    return;
+  }
   tempoDecorridoEmSegundos -= 1;
-  console.log("Temporizador: " + tempoDecorridoEmSegundos);
+  console.log("Tempo: " + tempoDecorridoEmSegundos);
+  console.log('Id: ' + intervaloId);
 };
+
+startPauseBt.addEventListener("click", contagemRegressiva);
+
+function iniciarOuPausar() {
+  // se o temporizador estiver ja estiver iniciado
+  if (intervaloId) {
+    audioPausa.play();
+    zerar();
+    return;
+  }
+  // setInterval => funcao que faz algo em uma determinada quantidade de tempo
+  audioPlay.play();
+  intervaloId = setInterval(contagemRegressiva, 1000); // 1000 => 1 segundo
+}
+
+function zerar() {
+  clearInterval(intervaloId); // para o setInterval
+  intervaloId = null;
+}

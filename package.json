@@ -1,0 +1,12 @@
+{
+  "name": "fokus",
+  "version": "1.0.0",
+  "description": "Projeto de landing page feito no curso de 'JavaScript: manipulando elementos no DOM' da Alura.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Otavio Henrique de Lima e Silva",
+  "license": "ISC"
+}

@@ -7,14 +7,17 @@ const banner = document.querySelector(".app__image");
 const titulo = document.querySelector(".app__title");
 const botoes = document.querySelectorAll(".app__card-button");
 const musicaFocoInput = document.querySelector("#alternar-musica");
-const musica = new Audio("sons/luna-rise-part-one.mp3"); // arquivo de musica
 const startPauseBt = document.querySelector("#start-pause");
+const iniciarOuPausarBt = document.querySelector("#start-pause span");
+const iniciarOuPausarBtIcone = document.querySelector(".app__card-primary-butto-icon");
+const tempoNaTela = document.querySelector("#timer");
+
+const musica = new Audio("sons/luna-rise-part-one.mp3"); // arquivo de musica
 const audioPlay = new Audio("sons/play.wav"); // arquivo de som do start
 const audioPausa = new Audio("sons/pause.mp3"); // arquivo de som do start
 const audioTempoFinalizado = new Audio("sons/beep.mp3"); // arquivo de som do start
 
-
-let tempoDecorridoEmSegundos = 5;
+let tempoDecorridoEmSegundos = 1500;
 let intervaloId = null;
 
 musica.loop = true; // musica se repete o tempo inteiro
@@ -31,6 +34,8 @@ musicaFocoInput.addEventListener("change", () => {
 
 // coloca uma acao de click no botao
 focoBt.addEventListener("click", () => {
+  tempoDecorridoEmSegundos = 1500;
+
   alterarContexto("foco");
 
   // adiciona a classe "active" no botao
@@ -39,6 +44,8 @@ focoBt.addEventListener("click", () => {
 
 // coloca uma acao de click no botao
 curtoBt.addEventListener("click", () => {
+  tempoDecorridoEmSegundos = 300;
+
   alterarContexto("descanso-curto");
 
   // adiciona a classe "active" no botao
@@ -47,6 +54,8 @@ curtoBt.addEventListener("click", () => {
 
 // coloca uma acao de click no botao
 longoBt.addEventListener("click", () => {
+  tempoDecorridoEmSegundos = 900;
+
   alterarContexto("descanso-longo");
 
   // adiciona a classe "active" no botao
@@ -54,6 +63,8 @@ longoBt.addEventListener("click", () => {
 });
 
 function alterarContexto(contexto) {
+  mostrarTempo();
+
   // remove a classe "active" no botao
   botoes.forEach(function(contexto) {
     contexto.classList.remove("active");
@@ -67,6 +78,7 @@ function alterarContexto(contexto) {
 
   // muda o titulo
   switch (contexto) {
+    // innerHTML => adiciona tags com texto ou somente texto dentro de uma tag
     case "foco":
       titulo.innerHTML = `
         Otimize sua produtividade,<br>
@@ -99,8 +111,9 @@ const contagemRegressiva = () => {
     return;
   }
   tempoDecorridoEmSegundos -= 1;
-  console.log("Temporizador: " + tempoDecorridoEmSegundos);
+  // console.log("Temporizador: " + tempoDecorridoEmSegundos);
   // console.log('Id: ' + intervaloId);
+  mostrarTempo();
 };
 
 startPauseBt.addEventListener("click", iniciarOuPausar);
@@ -115,9 +128,26 @@ function iniciarOuPausar() {
   // setInterval => funcao que faz algo em uma determinada quantidade de tempo
   audioPlay.play();
   intervaloId = setInterval(contagemRegressiva, 1000); // 1000 => 1 segundo
+  // textContent => adiciona somente texto dentro de uma tag
+  iniciarOuPausarBt.textContent = "Pausar";
+  iniciarOuPausarBtIcone.setAttribute("src", "imagens/pause.png");
 }
 
 function zerar() {
   clearInterval(intervaloId); // para o setInterval
+  // textContent => adiciona somente texto dentro de uma tag
+  iniciarOuPausarBt.textContent = "Começar";
+  iniciarOuPausarBtIcone.setAttribute("src", "imagens/play_arrow.png");
   intervaloId = null;
 }
+
+function mostrarTempo() {
+  const tempo = new Date(tempoDecorridoEmSegundos * 1000);
+  const tempoFormatado = tempo.toLocaleTimeString("pt-Br", {
+    minute: "2-digit", second: "2-digit"
+  });
+  // const tempo = tempoDecorridoEmSegundos;
+  tempoNaTela.innerHTML = `${tempoFormatado}`;
+}
+
+mostrarTempo();

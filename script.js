@@ -9,7 +9,7 @@ const botoes = document.querySelectorAll(".app__card-button");
 const musicaFocoInput = document.querySelector("#alternar-musica");
 const musica = new Audio("sons/luna-rise-part-one.mp3"); // arquivo de musica
 const startPauseBt = document.querySelector("#start-pause");
-const audioPlay = new Audio("sons/play.mp3"); // arquivo de som do start
+const audioPlay = new Audio("sons/play.wav"); // arquivo de som do start
 const audioPausa = new Audio("sons/pause.mp3"); // arquivo de som do start
 const audioTempoFinalizado = new Audio("sons/beep.mp3"); // arquivo de som do start
 
@@ -91,24 +91,19 @@ function alterarContexto(contexto) {
   }
 }
 
-// somPlay
-// somPause
-// somTimerZerado
-
 const contagemRegressiva = () => {
-  // iniciar();
   if (tempoDecorridoEmSegundos <= 0) {
-    zerar();
-    alert("Tempo finalizado!");
     audioTempoFinalizado.play();
+    alert("Tempo finalizado!");
+    zerar();
     return;
   }
   tempoDecorridoEmSegundos -= 1;
-  console.log("Tempo: " + tempoDecorridoEmSegundos);
-  console.log('Id: ' + intervaloId);
+  console.log("Temporizador: " + tempoDecorridoEmSegundos);
+  // console.log('Id: ' + intervaloId);
 };
 
-startPauseBt.addEventListener("click", contagemRegressiva);
+startPauseBt.addEventListener("click", iniciarOuPausar);
 
 function iniciarOuPausar() {
   // se o temporizador estiver ja estiver iniciado

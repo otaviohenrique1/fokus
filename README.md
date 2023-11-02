@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Projeto de landing page feito no curso de 'JavaScript: manipulando elementos no DOM' da Alura.
+Projeto feito no curso de 'JavaScript: manipulando elementos no DOM' da Alura.
 
 ## Tecnologias
 
